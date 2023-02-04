@@ -1,10 +1,11 @@
 window.addEventListener('load', () => {
-    document.getElementById('full-screen-button').addEventListener('click', () => {
-        let canvasContainer = document.getElementById('canvas-container')
-        if (canvasContainer.requestFullscreen) {
+    const canvasContainer = document.getElementById('canvas-container')
+    const fsButton = document.getElementById('full-screen-button')
+    if (canvasContainer.requestFullscreen) {
+        fsButton.addEventListener('click', () => {
             canvasContainer.requestFullscreen()
-        } else {
-            alert('Full screen is not supported')
-        }
-    })
+        })
+    } else {
+        fsButton.style.display = 'none'
+    }
 })
