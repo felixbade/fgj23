@@ -9,9 +9,14 @@ window.addEventListener('load', () => {
         fsButton.style.display = 'none'
     }
 
+    const scale = window.devicePixelRatio || 1
+
     // Create the application helper and add its render target to the page
-    const app = new PIXI.Application({ width: 640, height: 360 })
-    document.body.appendChild(app.view)
+    const app = new PIXI.Application({
+        width: window.innerWidth * scale,
+        height: window.innerHeight * scale
+    })
+    canvasContainer.appendChild(app.view)
 
     // Add a container to center our sprite stack on the page
     const container = new PIXI.Container()
