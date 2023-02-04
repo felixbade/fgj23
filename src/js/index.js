@@ -6,11 +6,11 @@ let y = 0
 const controlPieceCount = 30
 
 window.addEventListener('load', () => {
-
+    
     const rootSprites = []
     const rootContainer = new PIXI.Container()
     rootContainer.scale.set(0.1)
-    rootContainer.y = -400
+    rootContainer.y = -250
     container.addChild(rootContainer)
 
     let parent = rootContainer
