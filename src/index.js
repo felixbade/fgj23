@@ -19,15 +19,17 @@ window.addEventListener('load', () => {
     })
     canvasContainer.appendChild(app.view)
 
-    window.addEventListener('resize', () => {
-        app.renderer.resize(window.innerWidth * scale, window.innerHeight * scale)
-    })
-
     // Add a container to center our sprite stack on the page
     const container = new PIXI.Container()
     container.x = app.screen.width / 2
     container.y = app.screen.height / 2
     app.stage.addChild(container)
+
+    window.addEventListener('resize', () => {
+        app.renderer.resize(window.innerWidth * scale, window.innerHeight * scale)
+        container.x = app.screen.width / 2
+        container.y = app.screen.height / 2
+    })
 
     // Create the 3 sprites, each a child of the last
     const sprites = []
