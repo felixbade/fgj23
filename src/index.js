@@ -9,9 +9,15 @@ window.addEventListener('load', () => {
         fsButton.style.display = 'none'
     }
 
+    const scale = window.devicePixelRatio || 1
+
     // Create the application helper and add its render target to the page
-    const app = new PIXI.Application({ width: 640, height: 360 })
-    document.body.appendChild(app.view)
+    // resizeTo doesn't work as intended
+    const app = new PIXI.Application({
+        width: window.innerWidth * scale,
+        height: window.innerHeight * scale
+    })
+    canvasContainer.appendChild(app.view)
 
     // Add a container to center our sprite stack on the page
     const container = new PIXI.Container()
@@ -20,6 +26,12 @@ window.addEventListener('load', () => {
     const fxaa = new PIXI.FXAAFilter
     container.filters = [fxaa]
     app.stage.addChild(container)
+
+    window.addEventListener('resize', () => {
+        app.renderer.resize(window.innerWidth * scale, window.innerHeight * scale)
+        container.x = app.screen.width / 2
+        container.y = app.screen.height / 2
+    })
 
     // Create the 3 sprites, each a child of the last
     const sprites = []
