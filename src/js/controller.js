@@ -24,6 +24,18 @@ class Controller {
         if (keysDown.has('KeyS')) {
             y += 1
         }
+        
+        if (navigator.getGamepads) {
+            const gamepads = navigator.getGamepads()
+            if (gamepads.length >= 1 && gamepads[0]) {
+                const gamepad = gamepads[0]
+                if (gamepad.axes.length >= 2) {
+                    x += gamepad.axes[0]
+                    y += gamepad.axes[1]
+                }
+            }
+        }
+
         const r = Math.sqrt(x*x + y*y)
         if (r > 1) {
             x /= r
