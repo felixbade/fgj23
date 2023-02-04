@@ -30,6 +30,7 @@ class Controller {
             if (gamepads.length >= 1 && gamepads[0]) {
                 const gamepad = gamepads[0]
                 if (gamepad.axes.length >= 2) {
+                    // todo: fix neutral zone drift with minimum r = 0.15
                     x += gamepad.axes[0]
                     y += gamepad.axes[1]
                 }
