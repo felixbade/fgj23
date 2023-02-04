@@ -1,6 +1,5 @@
 body {
-    max-width: 35em;
-    margin: 0 auto;
+    margin: 0;
     font-family: sans-serif;
     line-height:  130%;
     font-size: 1.5em;
@@ -9,6 +8,54 @@ body {
     display: flex;
     justify-content: center;
 }
+
+
+/* From https://gist.github.com/MoOx/9137295 */
+
+.reset-button {
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    overflow: visible;
+
+    background: transparent;
+
+    /* inherit font & color from ancestor */
+    color: inherit;
+    font: inherit;
+
+    /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+    line-height: normal;
+
+    /* Corrects font smoothing for webkit */
+    -webkit-font-smoothing: inherit;
+    -moz-osx-font-smoothing: inherit;
+
+    /* Corrects inability to style clickable `input` types in iOS */
+    -webkit-appearance: none;
+}
+
+/* Remove excess padding and border in Firefox 4+ */
+&::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+#full-screen-button {
+    font-size: 0.75em;
+    padding: 0.5em;
+    border-radius: 0.5em;
+    position: fixed;
+    right: 0px;
+    top: 0px;
+    color: white;
+}
+
+#full-screen-button:hover {
+    background-color: hsla(0, 0%, 100%, 20%);
+}
+
 
 div {
     margin: 1em;
