@@ -47,7 +47,7 @@ window.addEventListener('load', () => {
         for (let i = 0; i < rootSprites.length; i++) {
             const sprite = rootSprites[i]
             if (rootSprites.length - 1 - i < 20) {
-                sprite.angle = -x
+                sprite.angle = x
             }
         }
     })
