@@ -17,6 +17,8 @@ window.addEventListener('load', () => {
     const container = new PIXI.Container()
     container.x = app.screen.width / 2
     container.y = app.screen.height / 2
+    const fxaa = new PIXI.FXAAFilter
+    container.filters = [fxaa]
     app.stage.addChild(container)
 
     // Create the 3 sprites, each a child of the last
