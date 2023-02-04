@@ -12,11 +12,16 @@ window.addEventListener('load', () => {
     const scale = window.devicePixelRatio || 1
 
     // Create the application helper and add its render target to the page
+    // resizeTo doesn't work as intended
     const app = new PIXI.Application({
         width: window.innerWidth * scale,
         height: window.innerHeight * scale
     })
     canvasContainer.appendChild(app.view)
+
+    window.addEventListener('resize', () => {
+        app.renderer.resize(window.innerWidth * scale, window.innerHeight * scale)
+    })
 
     // Add a container to center our sprite stack on the page
     const container = new PIXI.Container()
