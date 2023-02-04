@@ -13,13 +13,13 @@ window.addEventListener('load', () => {
     const app = new PIXI.Application({ width: 640, height: 360 })
     document.body.appendChild(app.view)
 
-// Add a container to center our sprite stack on the page
-const container = new PIXI.Container();
-container.x = app.screen.width / 2;
-container.y = app.screen.height / 2;
-const fxaa = new PIXI.FXAAFilter
-container.filters = [fxaa]
-app.stage.addChild(container);
+    // Add a container to center our sprite stack on the page
+    const container = new PIXI.Container()
+    container.x = app.screen.width / 2
+    container.y = app.screen.height / 2
+    const fxaa = new PIXI.FXAAFilter
+    container.filters = [fxaa]
+    app.stage.addChild(container)
 
     // Create the 3 sprites, each a child of the last
     const sprites = []
