@@ -1,3 +1,6 @@
+import { value } from "./render.js";
+console.log(value)
+
 window.addEventListener('load', () => {
     const canvasContainer = document.getElementById('canvas-container')
     const fsButton = document.getElementById('full-screen-button')
@@ -13,7 +16,7 @@ window.addEventListener('load', () => {
 
     // Create the application helper and add its render target to the page
     // resizeTo doesn't work as intended
-    const app = new PIXI.Application({
+    app = new PIXI.Application({
         width: window.innerWidth * scale,
         height: window.innerHeight * scale
     })
@@ -65,5 +68,4 @@ window.addEventListener('load', () => {
             sprite.x = x
         }
     })
-
 })
