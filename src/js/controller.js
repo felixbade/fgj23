@@ -30,9 +30,20 @@ class Controller {
             if (gamepads.length >= 1 && gamepads[0]) {
                 const gamepad = gamepads[0]
                 if (gamepad.axes.length >= 2) {
-                    // todo: fix neutral zone drift with minimum r = 0.15
-                    x += gamepad.axes[0]
-                    y += gamepad.axes[1]
+                    // Remove neutral zone drift
+                    const minR = 0.15
+                    let gx = gamepad.axes[0]
+                    let gy = gamepad.axes[1]
+                    const gr = Math.sqrt(gx*gx + gy*gy)
+                    if (gr < minR) {
+                        gx = 0
+                        gy = 0
+                    } else {
+                        gx = mapv(gx, minR, 1, 0, 1)
+                        gy = mapv(gy, minR, 1, 0, 1)
+                    }
+                    x += gx
+                    y += gy
                 }
             }
         }
@@ -64,6 +75,14 @@ class Controller {
 
         return false
     }
+}
+
+const mapv = (x, in_min, in_max, out_min, out_max) => {
+    x /= (in_max - in_min)
+    x -= in_min
+    x += out_min
+    x *= (out_max - out_min)
+    return x
 }
 
 export const controller = new Controller()
