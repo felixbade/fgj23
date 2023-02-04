@@ -1,0 +1,24 @@
+body {
+    max-width: 35em;
+    margin: 0 auto;
+    font-family: sans-serif;
+    line-height:  130%;
+    font-size: 1.5em;
+    background-color: hsl(220, 10%, 10%);
+    color: white;
+    display: flex;
+    justify-content: center;
+}
+
+div {
+    margin: 1em;
+}
+
+a {
+    color: hsl(160, 100%, 45%);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
