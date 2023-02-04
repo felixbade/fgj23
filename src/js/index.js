@@ -6,37 +6,49 @@ let y = 0
 
 window.addEventListener('load', () => {
 
-    // Create the 3 sprites, each a child of the last
-    const sprites = []
-    let parent = container
-    for (let i = 0; i < 3; i++) {
-        let sprite = PIXI.Sprite.from('assets/images/sample.png')
+    const rootSprites = []
+    const rootContainer = new PIXI.Container()
+    rootContainer.scale.set(0.2)
+    rootContainer.y = -400
+    container.addChild(rootContainer)
+
+    let parent = rootContainer
+    for (let i = 0; i < 20; i++) {
+        let sprite = PIXI.Sprite.from('assets/images/white square.png')
         sprite.anchor.set(0.5)
+        sprite.scale.set(0.95)
+        sprite.y = 64
         parent.addChild(sprite)
-        sprites.push(sprite)
+        rootSprites.push(sprite)
         parent = sprite
     }
 
-    // Set all sprite's properties to the same value, animated over time
-    let elapsed = 0.0
     app.ticker.add((delta) => {
-        x += controller.move.x * delta * 10
-        y += controller.move.y * delta * 10
-        // console.log(controller.trigger)
+        x += controller.move.x * delta * 0.4
+        // y += controller.move.y * delta * 10
 
-        elapsed += delta / 60
-        const amount = Math.sin(elapsed)
-        const scale = 1.0 + 0.25 * amount
-        const alpha = 0.75 + 0.25 * amount
-        const angle = 40 * amount
-        const x2 = 75 * amount
-        for (let i = 0; i < sprites.length; i++) {
-            const sprite = sprites[i]
-            sprite.scale.set(scale)
-            sprite.alpha = alpha
-            sprite.angle = angle
-            sprite.x = x2 + x
-            sprite.y = y
+        if (controller.trigger) {
+            y += delta * 0.3
+        }
+
+        const scaling = Math.min(1, 0.95 + 0.05 * y)
+        rootSprites[rootSprites.length - 20].scale.set(scaling)
+
+        if (y >= 1) {
+            y -= 1
+            let sprite = PIXI.Sprite.from('assets/images/white square.png')
+            sprite.anchor.set(0.5)
+            sprite.scale.set(0.95)
+            sprite.y = 64
+            rootSprites[rootSprites.length - 1].addChild(sprite)
+            rootSprites.push(sprite)
+        }
+
+        for (let i = 0; i < rootSprites.length; i++) {
+            const sprite = rootSprites[i]
+            if (rootSprites.length - 1 - i < 20) {
+                sprite.angle = x
+            }
         }
     })
 })
