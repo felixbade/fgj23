@@ -43,6 +43,26 @@ class Controller {
         }
         return { x, y }
     }
+
+    get trigger() {
+        if (keysDown.has('Space')) {
+            return true
+        }
+        
+        if (navigator.getGamepads) {
+            const gamepads = navigator.getGamepads()
+            if (gamepads.length >= 1 && gamepads[0]) {
+                const gamepad = gamepads[0]
+                if (gamepad.buttons.length >= 1) {
+                    if (gamepad.buttons[0].pressed) {
+                        return true
+                    }
+                }
+            }
+        }
+
+        return false
+    }
 }
 
 export const controller = new Controller()

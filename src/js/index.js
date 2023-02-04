@@ -22,6 +22,7 @@ window.addEventListener('load', () => {
     app.ticker.add((delta) => {
         x += controller.move.x * delta * 10
         y += controller.move.y * delta * 10
+        // console.log(controller.trigger)
 
         elapsed += delta / 60
         const amount = Math.sin(elapsed)
