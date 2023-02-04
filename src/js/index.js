@@ -6,11 +6,16 @@ let y = 0
 const controlPieceCount = 30
 
 window.addEventListener('load', () => {
+    let bgSprite = PIXI.Sprite.from('assets/images/background.png')
+    bgSprite.anchor.set(0.5, 0)
+    bgSprite.scale.set(0.5)
+    bgSprite.y = -650
+    container.addChild(bgSprite)
     
     const rootSprites = []
     const rootContainer = new PIXI.Container()
-    rootContainer.scale.set(0.1)
-    rootContainer.y = -250
+    rootContainer.scale.set(0.08)
+    rootContainer.y = -70
     container.addChild(rootContainer)
 
     let parent = rootContainer
@@ -53,4 +58,11 @@ window.addEventListener('load', () => {
             }
         }
     })
+
+    let turnipSprite = PIXI.Sprite.from('assets/images/turnip.png')
+    turnipSprite.anchor.set(0.5, 0)
+    turnipSprite.scale.set(0.25)
+    turnipSprite.y = -510
+    turnipSprite.x = 5
+    container.addChild(turnipSprite)
 })
