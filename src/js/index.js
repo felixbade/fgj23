@@ -70,7 +70,6 @@ window.addEventListener('load', () => {
 
         x += controller.move.x * delta * 8 / controlPieceCount
         x *= 1 - 1/40
-        // y += controller.move.y * delta * 10
 
         if (!collidesWithStone) {
             if (controller.trigger) {
