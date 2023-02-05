@@ -29,5 +29,6 @@ window.addEventListener('load', () => {
             sprite.angle = angle
             sprite.x = x
         }
+        console.log(sprites[2].containsPoint({x: 600, y: 400}))
     })
 })
