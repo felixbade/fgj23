@@ -1,18 +1,18 @@
-export const collider = function (point) {
+export const collider = function (sprite, point) {
   const tempPoint = {x: 0, y: 0 }
   //get mouse poisition relative to the bunny anchor point
-  this.worldTransform.applyInverse(point, tempPoint);
+  sprite.worldTransform.applyInverse(point, tempPoint);
   // console.error('temppoint:' + tempPoint);
 
-  const width = this._texture.orig.width;
-  const height = this._texture.orig.height;
-  const x1 = -width * this.anchor.x;
+  const width = sprite._texture.orig.width;
+  const height = sprite._texture.orig.height;
+  const x1 = -width * sprite.anchor.x;
   let y1 = 0;
 
   let flag = false;
   //collision detection for sprite (as a square, not pixel perfect)
   if (tempPoint.x >= x1 && tempPoint.x < x1 + width) {
-      y1 = -height * this.anchor.y;
+      y1 = -height * sprite.anchor.y;
 
       if (tempPoint.y >= y1 && tempPoint.y < y1 + height) {
           flag = true;
@@ -26,8 +26,8 @@ export const collider = function (point) {
   //if not continues from here
 
   // bitmap check
-  const tex = this.texture;
-  const baseTex = this.texture.baseTexture;
+  const tex = sprite.texture;
+  const baseTex = sprite.texture.baseTexture;
   const res = baseTex.resolution;
 
   if (!baseTex.hitmap) {
