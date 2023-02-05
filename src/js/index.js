@@ -157,5 +157,13 @@ window.addEventListener('load', () => {
         bugState += delta * bugAnimationSpeed
         bugSprite.currentFrame = bugFrameOrder[Math.round(bugState * bugFrameSpeed) % bugFrameOrder.length]
         bugSprite.rotation = Math.sin(bugState * bugRotationStep) * bugMaxRotation
+
+        // Center the view horizontally
+        const viewX = container.getGlobalPosition().x
+        const tipX = rootSprites[rootSprites.length - 1].getGlobalPosition().x
+        const canvasScaling = container.parent.scale.x
+        const newCenteringX = (viewX - tipX) / canvasScaling
+        const t = 0.03
+        container.x = (1-t) * container.x + t * newCenteringX
     })
 })
