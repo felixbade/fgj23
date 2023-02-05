@@ -1,6 +1,7 @@
 import { app, container } from './render.js'
 import { controller } from './controller.js'
 import { collider } from './containsPoint.js'
+import { mapv } from './utils.js'
 
 let x = 0
 let y = 0
@@ -13,6 +14,8 @@ window.addEventListener('load', () => {
     bgSprite.scale.set(0.5)
     bgSprite.y = -650
     container.addChild(bgSprite)
+
+    const rootAngles = []
     const rootSprites = []
     const rootContainer = new PIXI.Container()
     rootContainer.scale.set(0.08)
@@ -27,6 +30,7 @@ window.addEventListener('load', () => {
         sprite.y = 64
         parent.addChild(sprite)
         rootSprites.push(sprite)
+        rootAngles.push(Math.random())
         parent = sprite
     }
 
@@ -87,13 +91,17 @@ window.addEventListener('load', () => {
             sprite.y = 64
             rootSprites[rootSprites.length - 1].addChild(sprite)
             rootSprites.push(sprite)
+            rootAngles.push(Math.random())
         }
 
         for (let i = 0; i < rootSprites.length; i++) {
             const sprite = rootSprites[i]
             const edgyness = 1 + (i - rootSprites.length) / controlPieceCount
             if (rootSprites.length - 1 - i < controlPieceCount) {
-                sprite.angle = x * (1 + 0.6 * edgyness)
+                sprite.angle = (
+                    x * (1 + .09 * edgyness)
+                    + (rootAngles[i] - 0.5) * mapv(edgyness, 0, 1, 30, 20)
+                )
             }
         }
     })
