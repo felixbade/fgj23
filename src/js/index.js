@@ -10,6 +10,23 @@ const stoneCount = 10
 const gemCount = 10
 
 
+let soundStarted = false
+
+const startSound = () => {
+    if (soundStarted) return
+    soundStarted = true
+
+    const sound = PIXI.sound.Sound.from({
+        url: 'assets/sounds/birds.mp3',
+        autoPlay: true,
+        loop: true
+    })
+    sound.play()
+}
+
+window.addEventListener('keydown', startSound)
+window.addEventListener('mousedown', startSound)
+
 window.addEventListener('load', () => {
     let bgSprite = PIXI.Sprite.from('assets/images/background.png')
     bgSprite.anchor.set(0.5, 0)
@@ -201,5 +218,13 @@ window.addEventListener('load', () => {
         for (let i = 0; i < gemGlowSprites.length; i++) {
             gemGlowSprites[i][0].alpha = 0.5 + 0.2 * Math.sin(gemGlowSprites[i][1] * Math.PI*2 + (0.07 + 0.02 * gemGlowSprites[i][1]) * gemGlowState)
         }
+
+        // Center the view horizontally
+        const viewX = container.getGlobalPosition().x
+        const tipX = rootSprites[rootSprites.length - 1].getGlobalPosition().x
+        const canvasScaling = container.parent.scale.x
+        const newCenteringX = (viewX - tipX) / canvasScaling
+        const t = 0.03
+        container.x = (1-t) * container.x + t * newCenteringX
     })
 })
