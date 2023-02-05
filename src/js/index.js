@@ -74,9 +74,13 @@ window.addEventListener('load', () => {
         let currentCoordinates = rootSprites[rootSprites.length - 1].getGlobalPosition()
         for (let i = 0; i < stoneSprites.length; i++){
             if(stoneSprites[i].containsPoint(currentCoordinates)){
-                console.log(i)
+                console.log(`Collision with stone ${i}`)
             }
-
+        }
+        for (let i = 0; i < rootSprites.length - 10; i++){
+            if(rootSprites[i].containsPoint(currentCoordinates)){
+                console.log(`Collision with root ${i}`)
+            }
         }
 
         for (let i = 0; i < rootSprites.length; i++) {
