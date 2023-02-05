@@ -1,4 +1,4 @@
-PIXI.Sprite.prototype.containsPoint = function (point) {
+export const collider = function (point) {
   const tempPoint = {x: 0, y: 0 }
   //get mouse poisition relative to the bunny anchor point
   this.worldTransform.applyInverse(point, tempPoint);

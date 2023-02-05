@@ -1,5 +1,8 @@
 import { app, container } from './render.js'
 import { controller } from './controller.js'
+import { collider } from './containsPoint.js'
+
+PIXI.Sprite.prototype.containsPoint = collider
 
 let x = 0
 let y = 0
