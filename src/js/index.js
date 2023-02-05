@@ -105,7 +105,7 @@ window.addEventListener('load', () => {
                 y += delta * 0.4
             } else {
                 y += delta * 0.03
-            }    
+            }
         }
 
         const scaling = Math.min(1, 1 - (1-y) / controlPieceCount)
@@ -139,6 +139,6 @@ window.addEventListener('load', () => {
         const bugFrameSpeed = 0.5
         bugState += delta * bugAnimationSpeed
         bugSprite.currentFrame = bugFrameOrder[Math.round(bugState * bugFrameSpeed) % bugFrameOrder.length]
-        bugSprite.rotation = Math.sin(Math.round(bugState) * bugRotationStep) * bugMaxRotation
+        bugSprite.rotation = Math.sin(bugState * bugRotationStep) * bugMaxRotation
     })
 })
