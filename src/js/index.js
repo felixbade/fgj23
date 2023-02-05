@@ -1,5 +1,6 @@
 import { app, container } from './render.js'
 import { controller } from './controller.js'
+import { collider } from './containsPoint.js'
 
 let x = 0
 let y = 0
@@ -72,12 +73,12 @@ window.addEventListener('load', () => {
         }
         let currentCoordinates = rootSprites[rootSprites.length - 1].getGlobalPosition()
         for (let i = 0; i < stoneSprites.length; i++){
-            if(stoneSprites[i].containsPoint(currentCoordinates)){
+            if(collider(stoneSprites[i], currentCoordinates)){
                 console.log(`Collision with stone ${i}`)
             }
         }
         for (let i = 0; i < rootSprites.length - 10; i++){
-            if(rootSprites[i].containsPoint(currentCoordinates)){
+            if(collider(rootSprites[i], currentCoordinates)){
                 console.log(`Collision with root ${i}`)
             }
         }
