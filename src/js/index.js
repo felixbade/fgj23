@@ -50,14 +50,30 @@ window.addEventListener('load', () => {
 
 
     app.ticker.add((delta) => {
+        let collidesWithStone = false
+        let collidesWithRoot = false
+        let currentCoordinates = rootSprites[rootSprites.length - 1].getGlobalPosition()
+        for (let i = 0; i < stoneSprites.length; i++) {
+            if (collider(stoneSprites[i], currentCoordinates)) {
+                collidesWithStone = true
+            }
+        }
+        for (let i = 0; i < rootSprites.length - 10; i++) {
+            if (collider(rootSprites[i], currentCoordinates)) {
+                collidesWithRoot = true
+            }
+        }
+
         x += controller.move.x * delta * 8 / controlPieceCount
         x *= 1 - 1/40
         // y += controller.move.y * delta * 10
 
-        if (controller.trigger) {
-            y += delta * 0.4
-        } else {
-            y += delta * 0.03
+        if (!collidesWithStone) {
+            if (controller.trigger) {
+                y += delta * 0.4
+            } else {
+                y += delta * 0.03
+            }    
         }
 
         const scaling = Math.min(1, 1 - (1-y) / controlPieceCount)
@@ -71,19 +87,6 @@ window.addEventListener('load', () => {
             sprite.y = 64
             rootSprites[rootSprites.length - 1].addChild(sprite)
             rootSprites.push(sprite)
-
-
-        }
-        let currentCoordinates = rootSprites[rootSprites.length - 1].getGlobalPosition()
-        for (let i = 0; i < stoneSprites.length; i++){
-            if(collider(stoneSprites[i], currentCoordinates)){
-                console.log(`Collision with stone ${i}`)
-            }
-        }
-        for (let i = 0; i < rootSprites.length - 10; i++){
-            if(collider(rootSprites[i], currentCoordinates)){
-                console.log(`Collision with root ${i}`)
-            }
         }
 
         for (let i = 0; i < rootSprites.length; i++) {
