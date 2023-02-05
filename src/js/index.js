@@ -7,6 +7,7 @@ let x = 0
 let y = 0
 const controlPieceCount = 30
 const stoneCount = 10
+const gemCount = 5000
 
 window.addEventListener('load', () => {
     let bgSprite = PIXI.Sprite.from('assets/images/background.png')
@@ -34,10 +35,24 @@ window.addEventListener('load', () => {
         parent = sprite
     }
 
+
+    const dirtContainer = new PIXI.Container()
+    container.addChild(dirtContainer)
+    for (let i = 0; i < 4; i++) {
+        let sprite = PIXI.Sprite.from(`assets/images/dirt_${i + 1}.png`)
+        sprite.anchor.set(0.5)
+        sprite.scale.set(.5)
+        do {
+            sprite.x = Math.random() * 2000 - 1000
+            sprite.y = Math.random() * 800 - 150
+        } while (sprite.y < 250 && sprite.x < 300 && sprite.x > -300)
+        dirtContainer.addChild(sprite)
+    }
+
+
     const stoneSprites = []
     const stonesContainer = new PIXI.Container()
     container.addChild(stonesContainer)
-
     for (let i = 0; i < stoneCount; i++) {
         let sprite = PIXI.Sprite.from(`assets/images/stone_${i % 5 + 1}.png`)
         sprite.anchor.set(0.5)
@@ -59,6 +74,24 @@ window.addEventListener('load', () => {
     turnipSprite.y = -510
     turnipSprite.x = 5
     container.addChild(turnipSprite)
+
+    const gemSprites = []
+    const gemContainer = new PIXI.Container()
+    container.addChild(gemContainer)
+    for (let i = 0; i < gemCount; i++) {
+        let sprite = PIXI.Sprite.from(`assets/images/gem.png`)
+        sprite.anchor.set(0.5)
+        sprite.scale.set(0.25)
+        do {
+            sprite.x = Math.random() * 1500 - 750
+            sprite.y = Math.random() * 700 - 250
+        } while ((sprite.y < 250 && sprite.x < 300 && sprite.x > -300) ||
+            stoneSprites.some((a, i) => collider(a, {x: sprite.x, y: sprite.y})) ||
+            collider(turnipSprite, {x: sprite.x, y: sprite.y}))
+        gemContainer.addChild(sprite)
+        gemSprites.push(sprite)
+    }
+
 
     const animationImages = [
         'assets/images/bug_animation/bug_1.png',
