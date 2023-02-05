@@ -16,16 +16,16 @@ window.addEventListener('load', () => {
     app = new PIXI.Application()
     canvasContainer.appendChild(app.view)
 
-    container = new PIXI.Container()
+    const wrappingContainer = new PIXI.Container()
     const fxaa = new PIXI.FXAAFilter
-    container.filters = [fxaa]
-    app.stage.addChild(container)
+    wrappingContainer.filters = [fxaa]
+    app.stage.addChild(wrappingContainer)
 
     const resize = () => {
         app.renderer.resize(window.innerWidth * scale, window.innerHeight * scale)
-        container.x = app.screen.width / 2
-        container.y = app.screen.height / 2
-        container.scale.set(window.innerHeight * scale / 1000)
+        wrappingContainer.x = app.screen.width / 2
+        wrappingContainer.y = app.screen.height / 2
+        wrappingContainer.scale.set(window.innerHeight * scale / 1000)
         canvasContainer.style.height = `${window.innerHeight}px`
         canvasContainer.style.width = `${window.innerWidth}px`
     }
@@ -33,4 +33,8 @@ window.addEventListener('load', () => {
     resize()
 
     window.addEventListener('resize', resize)
+
+    // So that the application can't mess up the scaling and position
+    container = new PIXI.Container()
+    wrappingContainer.addChild(container)
 })
