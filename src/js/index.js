@@ -4,10 +4,7 @@ import { controller } from './controller.js'
 let x = 0
 let y = 0
 const controlPieceCount = 30
-<<<<<<< HEAD
 const stoneCount = 10
-=======
->>>>>>> main
 
 window.addEventListener('load', () => {
     let bgSprite = PIXI.Sprite.from('assets/images/background.png')
@@ -15,11 +12,6 @@ window.addEventListener('load', () => {
     bgSprite.scale.set(0.5)
     bgSprite.y = -650
     container.addChild(bgSprite)
-<<<<<<< HEAD
-
-=======
-    
->>>>>>> main
     const rootSprites = []
     const rootContainer = new PIXI.Container()
     rootContainer.scale.set(0.08)
@@ -37,7 +29,6 @@ window.addEventListener('load', () => {
         parent = sprite
     }
 
-<<<<<<< HEAD
     const stoneSprites = []
     const stonesContainer = new PIXI.Container()
     container.addChild(stonesContainer)
@@ -57,8 +48,6 @@ window.addEventListener('load', () => {
 
 
 
-=======
->>>>>>> main
     app.ticker.add((delta) => {
         x += controller.move.x * delta * 8 / controlPieceCount
         // y += controller.move.y * delta * 10
@@ -78,7 +67,6 @@ window.addEventListener('load', () => {
             sprite.y = 64
             rootSprites[rootSprites.length - 1].addChild(sprite)
             rootSprites.push(sprite)
-<<<<<<< HEAD
 
 
         }
@@ -92,8 +80,6 @@ window.addEventListener('load', () => {
             if(rootSprites[i].containsPoint(currentCoordinates)){
                 console.log(`Collision with root ${i}`)
             }
-=======
->>>>>>> main
         }
 
         for (let i = 0; i < rootSprites.length; i++) {
