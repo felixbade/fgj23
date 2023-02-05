@@ -7,6 +7,8 @@ let x = 0
 let y = 0
 const controlPieceCount = 30
 const stoneCount = 10
+const gemCount = 10
+
 
 let soundStarted = false
 
@@ -32,6 +34,22 @@ window.addEventListener('load', () => {
     bgSprite.y = -650
     container.addChild(bgSprite)
 
+
+
+    const dirtContainer = new PIXI.Container()
+    container.addChild(dirtContainer)
+    for (let i = 0; i < 4; i++) {
+        let sprite = PIXI.Sprite.from(`assets/images/dirt_${i + 1}.png`)
+        sprite.anchor.set(0.5)
+        sprite.scale.set(.5)
+        do {
+            sprite.x = Math.random() * 2000 - 1000
+            sprite.y = Math.random() * 800 - 150
+        } while (sprite.y < 250 && sprite.x < 300 && sprite.x > -300)
+        dirtContainer.addChild(sprite)
+    }
+
+
     const rootAngles = []
     const rootSprites = []
     const rootContainer = new PIXI.Container()
@@ -51,10 +69,13 @@ window.addEventListener('load', () => {
         parent = sprite
     }
 
+
+
+
+
     const stoneSprites = []
     const stonesContainer = new PIXI.Container()
     container.addChild(stonesContainer)
-
     for (let i = 0; i < stoneCount; i++) {
         let sprite = PIXI.Sprite.from(`assets/images/stone_${i % 5 + 1}.png`)
         sprite.anchor.set(0.5)
@@ -77,12 +98,36 @@ window.addEventListener('load', () => {
     turnipSprite.x = 5
     container.addChild(turnipSprite)
 
+    const gemSprites = []
+    const gemContainer = new PIXI.Container()
+    container.addChild(gemContainer)
+    let gemGlowSprites = []
+    let gemGlowTexture = PIXI.Texture.from('assets/images/gem_glow.png')
+    for (let i = 0; i < gemCount; i++) {
+        let sprite = PIXI.Sprite.from(`assets/images/gem.png`)
+        sprite.anchor.set(0.5)
+        sprite.scale.set(0.25)
+        do {
+            sprite.x = Math.random() * 1500 - 750
+            sprite.y = Math.random() * 700 - 250
+        } while ((sprite.y < 250 && sprite.x < 300 && sprite.x > -300))
+        gemContainer.addChild(sprite)
+        gemSprites.push(sprite)
+        let glow = PIXI.Sprite.from(`assets/images/gem_glow.png`)
+        glow.anchor.set(0.5)
+        glow.scale.set(1)
+        gemGlowSprites.push([glow, Math.random()])
+        sprite.addChild(glow)
+    }
+    let gemGlowState = 0
+
+
     const animationImages = [
         'assets/images/bug_animation/bug_1.png',
         'assets/images/bug_animation/bug_2.png',
         'assets/images/bug_animation/bug_3.png',
-    ];
-    const textureArray = [];
+    ]
+    const textureArray = []
     for (let i = 0; i < animationImages.length; i++)
     {
         const texture = PIXI.Texture.from(animationImages[i]);
@@ -111,6 +156,16 @@ window.addEventListener('load', () => {
         for (let i = 0; i < rootSprites.length - 10; i++) {
             if (collider(rootSprites[i], currentCoordinates)) {
                 collidesWithRoot = true
+            }
+        }
+
+        for (let i = 0; i < gemSprites.length; i++) {
+            if (collider(gemSprites[i], currentCoordinates)) {
+                gemContainer.removeChild(gemSprites[i])
+                gemSprites.splice(i, 1)
+                if(gemSprites.length === 0){
+                    console.log("Victory")
+                }
             }
         }
 
@@ -150,6 +205,7 @@ window.addEventListener('load', () => {
             }
         }
 
+
         const bugAnimationSpeed = 0.1
         const bugMaxRotation = 0.1
         const bugRotationStep = 0.4
@@ -157,6 +213,11 @@ window.addEventListener('load', () => {
         bugState += delta * bugAnimationSpeed
         bugSprite.currentFrame = bugFrameOrder[Math.round(bugState * bugFrameSpeed) % bugFrameOrder.length]
         bugSprite.rotation = Math.sin(bugState * bugRotationStep) * bugMaxRotation
+
+        gemGlowState += delta
+        for (let i = 0; i < gemGlowSprites.length; i++) {
+            gemGlowSprites[i][0].alpha = 0.5 + 0.2 * Math.sin(gemGlowSprites[i][1] * Math.PI*2 + (0.07 + 0.02 * gemGlowSprites[i][1]) * gemGlowState)
+        }
 
         // Center the view horizontally
         const viewX = container.getGlobalPosition().x
