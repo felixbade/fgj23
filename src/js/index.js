@@ -53,6 +53,35 @@ window.addEventListener('load', () => {
 
 
 
+    let turnipSprite = PIXI.Sprite.from('assets/images/turnip.png')
+    turnipSprite.anchor.set(0.5, 0)
+    turnipSprite.scale.set(0.25)
+    turnipSprite.y = -510
+    turnipSprite.x = 5
+    container.addChild(turnipSprite)
+
+    const animationImages = [
+        'assets/images/bug_animation/bug_1.png',
+        'assets/images/bug_animation/bug_2.png',
+        'assets/images/bug_animation/bug_3.png',
+    ];
+    const textureArray = [];
+    for (let i = 0; i < animationImages.length; i++)
+    {
+        const texture = PIXI.Texture.from(animationImages[i]);
+        textureArray.push(texture);
+    }
+    const bugSprite = new PIXI.AnimatedSprite(textureArray);
+    bugSprite.anchor.set(0.5, 0.8)
+    bugSprite.scale.set(0.25)
+    bugSprite.y = -160
+    bugSprite.x = 10
+    container.addChild(bugSprite)
+    let bugState = 0
+    // Idk how to make a proper alternating animation
+    const bugFrameOrder = [0, 1, 2, 1]
+
+
     app.ticker.add((delta) => {
         let collidesWithStone = false
         let collidesWithRoot = false
@@ -103,12 +132,13 @@ window.addEventListener('load', () => {
                 )
             }
         }
-    })
 
-    let turnipSprite = PIXI.Sprite.from('assets/images/turnip.png')
-    turnipSprite.anchor.set(0.5, 0)
-    turnipSprite.scale.set(0.25)
-    turnipSprite.y = -510
-    turnipSprite.x = 5
-    container.addChild(turnipSprite)
+        const bugAnimationSpeed = 0.1
+        const bugMaxRotation = 0.1
+        const bugRotationStep = 0.4
+        const bugFrameSpeed = 0.5
+        bugState += delta * bugAnimationSpeed
+        bugSprite.currentFrame = bugFrameOrder[Math.round(bugState * bugFrameSpeed) % bugFrameOrder.length]
+        bugSprite.rotation = Math.sin(Math.round(bugState) * bugRotationStep) * bugMaxRotation
+    })
 })
