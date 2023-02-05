@@ -2,7 +2,6 @@ export const collider = function (sprite, point) {
     const tempPoint = {x: 0, y: 0 }
     //get mouse poisition relative to the bunny anchor point
     sprite.worldTransform.applyInverse(point, tempPoint);
-    // console.error('temppoint:' + tempPoint);
 
     const width = sprite._texture.orig.width;
     const height = sprite._texture.orig.height;
@@ -40,14 +39,11 @@ export const collider = function (sprite, point) {
 
     const hitmap = baseTex.hitmap;
 
-    // console.log(hitmap)
     // this does not account for rotation yet!!!
 
     //check mouse position if its over the sprite and visible
     let dx = Math.round((tempPoint.x - x1 + tex.frame.x) * res);
     let dy = Math.round((tempPoint.y - y1 + tex.frame.y) * res);
-    // console.log(dx);
-    // console.log(dy);
     let ind = (dx + dy * baseTex.realWidth);
     let ind1 = ind % 32;
     let ind2 = ind / 32 | 0;
@@ -93,7 +89,6 @@ function genHitmap(baseTex, threshold) {
         //if it's visible add to the array
         if (imageData.data[i * 4 + 3] >= threshold) {
             hitmap[ind2] = hitmap[ind2] | (1 << ind1);
-            // console.log(`hitmap[${ind2}]:`, hitmap[ind2]);
         }
     }
     return true;
