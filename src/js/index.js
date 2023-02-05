@@ -1,6 +1,7 @@
 import { app, container } from './render.js'
 import { controller } from './controller.js'
 import { collider } from './containsPoint.js'
+import { mapv } from './utils.js'
 
 let x = 0
 let y = 0
@@ -13,6 +14,8 @@ window.addEventListener('load', () => {
     bgSprite.scale.set(0.5)
     bgSprite.y = -650
     container.addChild(bgSprite)
+
+    const rootAngles = []
     const rootSprites = []
     const rootContainer = new PIXI.Container()
     rootContainer.scale.set(0.08)
@@ -27,6 +30,7 @@ window.addEventListener('load', () => {
         sprite.y = 64
         parent.addChild(sprite)
         rootSprites.push(sprite)
+        rootAngles.push(Math.random())
         parent = sprite
     }
 
@@ -50,11 +54,29 @@ window.addEventListener('load', () => {
 
 
     app.ticker.add((delta) => {
-        x += controller.move.x * delta * 8 / controlPieceCount
-        // y += controller.move.y * delta * 10
+        let collidesWithStone = false
+        let collidesWithRoot = false
+        let currentCoordinates = rootSprites[rootSprites.length - 1].getGlobalPosition()
+        for (let i = 0; i < stoneSprites.length; i++) {
+            if (collider(stoneSprites[i], currentCoordinates)) {
+                collidesWithStone = true
+            }
+        }
+        for (let i = 0; i < rootSprites.length - 10; i++) {
+            if (collider(rootSprites[i], currentCoordinates)) {
+                collidesWithRoot = true
+            }
+        }
 
-        if (controller.trigger) {
-            y += delta * 0.4
+        x += controller.move.x * delta * 8 / controlPieceCount
+        x *= 1 - 1/40
+
+        if (!collidesWithStone) {
+            if (controller.trigger) {
+                y += delta * 0.4
+            } else {
+                y += delta * 0.03
+            }    
         }
 
         const scaling = Math.min(1, 1 - (1-y) / controlPieceCount)
@@ -68,26 +90,17 @@ window.addEventListener('load', () => {
             sprite.y = 64
             rootSprites[rootSprites.length - 1].addChild(sprite)
             rootSprites.push(sprite)
-
-
-        }
-        let currentCoordinates = rootSprites[rootSprites.length - 1].getGlobalPosition()
-        for (let i = 0; i < stoneSprites.length; i++){
-            if(collider(stoneSprites[i], currentCoordinates)){
-                console.log(`Collision with stone ${i}`)
-            }
-        }
-        for (let i = 0; i < rootSprites.length - 10; i++){
-            if(collider(rootSprites[i], currentCoordinates)){
-                console.log(`Collision with root ${i}`)
-            }
+            rootAngles.push(Math.random())
         }
 
         for (let i = 0; i < rootSprites.length; i++) {
             const sprite = rootSprites[i]
             const edgyness = 1 + (i - rootSprites.length) / controlPieceCount
             if (rootSprites.length - 1 - i < controlPieceCount) {
-                sprite.angle = x * (1 + 0.6 * edgyness)
+                sprite.angle = (
+                    x * (1 + .09 * edgyness)
+                    + (rootAngles[i] - 0.5) * mapv(edgyness, 0, 1, 30, 20)
+                )
             }
         }
     })

@@ -1,3 +1,5 @@
+import { mapv } from './utils.js'
+
 const keysDown = new Set()
 
 window.addEventListener('keydown', event => {
@@ -39,8 +41,9 @@ class Controller {
                         gx = 0
                         gy = 0
                     } else {
-                        gx = mapv(gx, minR, 1, 0, 1)
-                        gy = mapv(gy, minR, 1, 0, 1)
+                        const gr2 = mapv(gr, minR, 1, 0, 1)
+                        gx *= gr2 / gr
+                        gy *= gr2 / gr
                     }
                     x += gx
                     y += gy
@@ -75,14 +78,6 @@ class Controller {
 
         return false
     }
-}
-
-const mapv = (x, in_min, in_max, out_min, out_max) => {
-    x /= (in_max - in_min)
-    x -= in_min
-    x += out_min
-    x *= (out_max - out_min)
-    return x
 }
 
 export const controller = new Controller()
