@@ -8,6 +8,23 @@ let y = 0
 const controlPieceCount = 30
 const stoneCount = 10
 
+let soundStarted = false
+
+const startSound = () => {
+    if (soundStarted) return
+    soundStarted = true
+
+    const sound = PIXI.sound.Sound.from({
+        url: 'assets/sounds/birds.mp3',
+        autoPlay: true,
+        loop: true
+    })
+    sound.play()
+}
+
+window.addEventListener('keydown', startSound)
+window.addEventListener('mousedown', startSound)
+
 window.addEventListener('load', () => {
     let bgSprite = PIXI.Sprite.from('assets/images/background.png')
     bgSprite.anchor.set(0.5, 0)
