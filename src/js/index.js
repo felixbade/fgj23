@@ -1,9 +1,11 @@
 import { app, container } from './render.js'
 import { controller } from './controller.js'
+import { collider } from './containsPoint.js'
 
 let x = 0
 let y = 0
 const controlPieceCount = 30
+const stoneCount = 10
 
 window.addEventListener('load', () => {
     let bgSprite = PIXI.Sprite.from('assets/images/background.png')
@@ -11,7 +13,6 @@ window.addEventListener('load', () => {
     bgSprite.scale.set(0.5)
     bgSprite.y = -650
     container.addChild(bgSprite)
-    
     const rootSprites = []
     const rootContainer = new PIXI.Container()
     rootContainer.scale.set(0.08)
@@ -28,6 +29,25 @@ window.addEventListener('load', () => {
         rootSprites.push(sprite)
         parent = sprite
     }
+
+    const stoneSprites = []
+    const stonesContainer = new PIXI.Container()
+    container.addChild(stonesContainer)
+
+    for (let i = 0; i < stoneCount; i++) {
+        let sprite = PIXI.Sprite.from(`assets/images/stone_${i % 5 + 1}.png`)
+        sprite.anchor.set(0.5)
+        sprite.scale.set(0.5)
+        sprite.rotation = Math.random() * Math.PI * 2
+        do {
+            sprite.x = Math.random() * 2000 - 1000
+            sprite.y = Math.random() * 800 - 250
+        } while (sprite.y < 250 && sprite.x < 300 && sprite.x > -300)
+        stonesContainer.addChild(sprite)
+        stoneSprites.push(sprite)
+    }
+
+
 
     app.ticker.add((delta) => {
         x += controller.move.x * delta * 8 / controlPieceCount
@@ -48,6 +68,19 @@ window.addEventListener('load', () => {
             sprite.y = 64
             rootSprites[rootSprites.length - 1].addChild(sprite)
             rootSprites.push(sprite)
+
+
+        }
+        let currentCoordinates = rootSprites[rootSprites.length - 1].getGlobalPosition()
+        for (let i = 0; i < stoneSprites.length; i++){
+            if(collider(stoneSprites[i], currentCoordinates)){
+                console.log(`Collision with stone ${i}`)
+            }
+        }
+        for (let i = 0; i < rootSprites.length - 10; i++){
+            if(collider(rootSprites[i], currentCoordinates)){
+                console.log(`Collision with root ${i}`)
+            }
         }
 
         for (let i = 0; i < rootSprites.length; i++) {
