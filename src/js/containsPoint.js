@@ -1,4 +1,4 @@
-export const collider = function (sprite, point) {
+export const collider = (sprite, point) => {
 
     // Get mouse poisition relative to the bunny anchor point
     const tempPoint = { x: 0, y: 0 }
@@ -48,7 +48,7 @@ export const collider = function (sprite, point) {
     return (hitmap[ind2] & (1 << ind1)) !== 0
 }
 
-function generateHitmap(baseTex, threshold) {
+const generateHitmap = (baseTex, threshold) => {
     if (!baseTex.resource) {
         return false
     }
