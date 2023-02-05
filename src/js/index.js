@@ -56,6 +56,8 @@ window.addEventListener('load', () => {
 
         if (controller.trigger) {
             y += delta * 0.4
+        } else {
+            y += delta * 0.03
         }
 
         const scaling = Math.min(1, 1 - (1-y) / controlPieceCount)
