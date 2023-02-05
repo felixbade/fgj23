@@ -51,6 +51,7 @@ window.addEventListener('load', () => {
 
     app.ticker.add((delta) => {
         x += controller.move.x * delta * 8 / controlPieceCount
+        x *= 1 - 1/40
         // y += controller.move.y * delta * 10
 
         if (controller.trigger) {
