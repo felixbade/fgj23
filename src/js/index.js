@@ -26,6 +26,7 @@ const startSound = () => {
 
 window.addEventListener('keydown', startSound)
 window.addEventListener('mousedown', startSound)
+window.addEventListener('touchstart', startSound)
 
 window.addEventListener('load', () => {
     let bgSprite = PIXI.Sprite.from('assets/images/background.png')
